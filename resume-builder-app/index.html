@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume Builder</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="vendor/lucide.min.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Resume workspace</p>
+        <h1>Resume Builder</h1>
+      </div>
+      <div class="header-actions" aria-label="Resume actions">
+        <button class="icon-button" id="saveJson" type="button" title="Download backup">
+          <i data-lucide="download" aria-hidden="true"></i>
+          <span>Backup</span>
+        </button>
+        <label class="icon-button file-button" title="Import backup">
+          <i data-lucide="upload" aria-hidden="true"></i>
+          <span>Import</span>
+          <input id="importJson" type="file" accept="application/json">
+        </label>
+        <button class="icon-button primary" id="printResume" type="button" title="Print or save PDF">
+          <i data-lucide="printer" aria-hidden="true"></i>
+          <span>Print</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <section class="editor-panel" aria-label="Resume editor">
+        <div class="panel-toolbar">
+          <div>
+            <h2>Build Details</h2>
+            <p>Autosaves in this browser while you work.</p>
+          </div>
+          <button class="ghost-button" id="resetDemo" type="button">
+            <i data-lucide="rotate-ccw" aria-hidden="true"></i>
+            Reset
+          </button>
+        </div>
+
+        <nav class="tabs" aria-label="Resume sections">
+          <button class="tab active" type="button" data-section="basics">Basics</button>
+          <button class="tab" type="button" data-section="experience">Experience</button>
+          <button class="tab" type="button" data-section="education">Education</button>
+          <button class="tab" type="button" data-section="skills">Skills</button>
+        </nav>
+
+        <form id="resumeForm">
+          <section class="form-section active" data-panel="basics">
+            <div class="format-guide">
+              <h3>ATS-Friendly Format</h3>
+              <ul>
+                <li>Use one column with standard section headings.</li>
+                <li>Lead with a target role, short summary, and core skills.</li>
+                <li>List jobs newest first with measurable bullet points.</li>
+                <li>Keep the resume to one page for most early or mid-career resumes.</li>
+              </ul>
+            </div>
+            <div class="field-grid two">
+              <label>
+                Full name
+                <input name="name" autocomplete="name" placeholder="First Last">
+              </label>
+              <label>
+                Target role
+                <input name="targetRole" placeholder="Customer Success Specialist">
+              </label>
+              <label>
+                Phone
+                <input name="phone" autocomplete="tel" placeholder="(555) 555-5555">
+              </label>
+              <label>
+                Email
+                <input name="email" autocomplete="email" placeholder="name@email.com">
+              </label>
+              <label>
+                Location
+                <input name="location" autocomplete="address-level2" placeholder="Denver, CO">
+              </label>
+              <label>
+                LinkedIn or portfolio
+                <input name="link" placeholder="linkedin.com/in/yourname">
+              </label>
+            </div>
+            <label>
+              Professional summary
+              <textarea name="summary" rows="5" placeholder="2-4 lines that connect your strongest experience to the job you want."></textarea>
+            </label>
+            <div class="coach-strip">
+              <strong>Summary recipe</strong>
+              <span>Target role + strongest transferable skills + work setting + result or work style.</span>
+            </div>
+          </section>
+
+          <section class="form-section" data-panel="experience">
+            <div class="section-heading">
+              <div>
+                <h3>Professional Experience</h3>
+                <p>Add recent roles newest first. Volunteer work counts when it shows job-ready skills.</p>
+              </div>
+              <button class="small-button" type="button" data-add="experience">
+                <i data-lucide="plus" aria-hidden="true"></i>
+                Add
+              </button>
+            </div>
+            <div id="experienceList" class="dynamic-list"></div>
+            <div class="coach-strip spacing-top">
+              <strong>Bullet recipe</strong>
+              <span>Action verb + task context + result. Keep each bullet to one or two lines.</span>
+            </div>
+          </section>
+
+          <section class="form-section" data-panel="education">
+            <div class="section-heading">
+              <div>
+                <h3>Education</h3>
+                <p>Include school, certification programs, licenses, or trainings.</p>
+              </div>
+              <button class="small-button" type="button" data-add="education">
+                <i data-lucide="plus" aria-hidden="true"></i>
+                Add
+              </button>
+            </div>
+            <div id="educationList" class="dynamic-list"></div>
+          </section>
+
+          <section class="form-section" data-panel="skills">
+            <label>
+              Core skills
+              <textarea name="skills" rows="4" placeholder="Customer support, scheduling, Microsoft Office, conflict resolution"></textarea>
+            </label>
+            <label>
+              Job description keywords
+              <textarea name="keywords" rows="4" placeholder="Paste important words from the job post here."></textarea>
+            </label>
+            <label>
+              Additional highlights
+              <textarea name="highlights" rows="5" placeholder="Awards, languages, software, community leadership, or accomplishments. One per line."></textarea>
+            </label>
+            <div class="keyword-box">
+              <h3>Keyword Check</h3>
+              <div id="keywordResults" class="keyword-results"></div>
+            </div>
+            <div class="format-score">
+              <h3>Format Check</h3>
+              <div id="formatResults" class="format-results"></div>
+            </div>
+          </section>
+        </form>
+      </section>
+
+      <aside class="preview-panel" aria-label="Resume preview">
+        <div class="preview-toolbar">
+          <div>
+            <h2>Live Preview</h2>
+            <p>Designed for one-page printing.</p>
+          </div>
+          <div class="density-control" aria-label="Preview size">
+            <button class="density active" type="button" data-density="comfortable">A</button>
+            <button class="density" type="button" data-density="compact">A</button>
+          </div>
+        </div>
+        <article id="resumePreview" class="resume-page comfortable"></article>
+      </aside>
+    </main>
+  </body>
+</html>
